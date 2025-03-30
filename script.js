@@ -1,4 +1,4 @@
-function getposts(object){
+/*function getposts(object){
     return `
         <div> 
             <h2>${object.title} </h2>
@@ -21,8 +21,16 @@ function fetchData(){
     })
     .catch((err) => console.log(err));
 }
-fetchData(); 
+fetchData(); */ 
 
+function getPostMarkup(post) {
+    return `
+        <div>
+            <h2>${post.title}</h2>
+            <p>${post.body}</p>
+            <hr>
+        </div>`;
+}
 
 function createPost(title, body){
     fetch('https://jsonplaceholder.typicode.com/posts', {
@@ -34,11 +42,14 @@ function createPost(title, body){
     })
     .then((res) => res.json())
     .then((post) => {
-        const markup = createPost(post);
+        const container = document.getElementById('container');
+        const markup = getPostMarkup(post); 
         appendPost(container, markup);
     })
-    .catch((err) => console.log(err))
+    .catch((err) => console.log(err));
 }
 document.getElementById('button').addEventListener('click', () => {
+    const title = document.getElementById('input_title').value;
+    const body = document.getElementById('input_body').value;
     createPost(document.getElementById('title').value, 'body');
 });
